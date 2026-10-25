@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sunergy · Solar Monitoring</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="hdr">
+  <div class="brand">
+    <img id="logo" src="img/logo.png" alt="Logo" onerror="this.remove()">
+    <b>Sunergy Solar Monitoring</b>
+  </div>
+  <div class="hdr-r"><span id="status" class="pill">Menunggu data…</span></div>
+</header>
+<nav class="tabs">
+  <a href="#monitor" data-v="monitor">Dashboard</a>
+  <a href="#grafik" data-v="grafik">Grafik realtime</a>
+  <a href="#histori" data-v="histori">Histori &amp; Laporan</a>
+</nav>
+
+<main class="main">
+  <section id="monitor" class="view">
+    <div class="hero card">
+      <div class="gauge">
+        <svg viewBox="0 0 140 140" aria-hidden="true"><circle class="g-bg" cx="70" cy="70" r="58"/><circle id="gArc" class="g-arc" cx="70" cy="70" r="58" transform="rotate(-90 70 70)"/></svg>
+        <div class="g-txt"><span id="vDaya">–</span><small>Watt</small></div>
+      </div>
+      <div class="hero-info">
+        <div class="lbl">Daya</div>
+        <div class="sub muted"><span id="vWaktu">–</span></div>
+      </div>
+    </div>
+    <div class="kpis">
+      <div class="card kpi k4"><span class="lbl">Energi</span><b><span id="vEnHari">–</span><small id="vEnHariU">kWh</small></b></div>
+      <div class="card kpi k1"><span class="lbl">Daya puncak</span><b><span id="vPeak">–</span><small>W</small></b></div>
+      <div class="card kpi k2"><span class="lbl">Tegangan</span><b><span id="vTegangan">–</span><small>V</small></b></div>
+      <div class="card kpi k3"><span class="lbl">Arus</span><b><span id="vArus">–</span><small>A</small></b></div>
+    </div>
+    <div class="card"><h2>Kurva daya</h2><div class="chart short"><canvas id="dayChart"></canvas></div></div>
+  </section>
+
+  <section id="grafik" class="view" hidden>
+    <div class="card">
+      <div class="bar">
+        <div class="seg" id="metricTabs"></div>
+        <select id="range"><option value="30">30 data</option><option value="60" selected>60 data</option><option value="120">120 data</option><option value="0">Seluruh hari</option></select>
+      </div>
+      <div class="chart"><canvas id="bigChart"></canvas></div>
+    </div>
+  </section>
+
+  <section id="histori" class="view" hidden>
+    <div class="card bar">
+      <select id="tgl"></select><button id="xls">Export Excel</button><button id="csv" class="ghost">CSV</button>
+      <span id="info" class="muted"></span>
+    </div>
+    <div class="kpis">
+      <div class="card kpi k4"><span class="lbl">Total energi</span><b><span id="sTotal">–</span><small id="sTotalU">kWh</small></b></div>
+      <div class="card kpi k1"><span class="lbl">Daya puncak</span><b><span id="sPeak">–</span><small>W</small></b><em id="sPeakAt"></em></div>
+      <div class="card kpi k2"><span class="lbl">Tegangan rata-rata</span><b><span id="sVolt">–</span><small>V</small></b></div>
+      <div class="card kpi k3"><span class="lbl">Jam tercatat</span><b><span id="sN">–</span></b></div>
+    </div>
+    <div class="card"><h2>Energi per jam (kWh)</h2><div class="chart short"><canvas id="hourChart"></canvas></div></div>
+    <div class="card tw">
+      <table>
+        <thead><tr><th>Tanggal</th><th>Jam</th><th>Data</th><th>Tegangan (V)</th><th>Arus (A)</th><th>Daya rata-rata (W)</th><th>Daya maks (W)</th><th>Energi (kWh)</th></tr></thead>
+        <tbody id="rows"><tr><td colspan="8" class="muted">Pilih minggu.</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
