@@ -8,7 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
-<link rel="stylesheet" href="css/style.css">
+<link rel="icon" type="image/png" href="img/logo.png">
+<link rel="apple-touch-icon" href="img/logo.png">
+<link rel="stylesheet" href="css/style.css?v=3">
 </head>
 <body>
 <header class="top">
@@ -62,7 +64,7 @@
     <div class="card">
       <div class="card-h"><h2>Pembacaan terakhir</h2><button id="dlToday" class="ghost">Unduh data hari ini (CSV)</button></div>
       <div class="tw short">
-        <table>
+        <table class="t-log">
           <thead><tr><th>Jam</th><th>Tegangan (V)</th><th>Arus (A)</th><th>Daya (W)</th><th>Kondisi</th></tr></thead>
           <tbody id="logRows"><tr><td colspan="5" class="muted">Menunggu data…</td></tr></tbody>
         </table>
@@ -129,7 +131,7 @@
     <div class="card">
       <div class="card-h"><h2>Ringkasan harian</h2></div>
       <div class="tw short">
-        <table>
+        <table class="t-daily">
           <thead><tr><th>Hari</th><th>Data</th><th>Energi (Wh)</th><th>Daya maks (W)</th><th>Jam puncak</th><th>Durasi produksi</th><th>Kontinuitas data</th></tr></thead>
           <tbody id="dRows"><tr><td colspan="7" class="muted">Memuat…</td></tr></tbody>
         </table>
@@ -139,7 +141,7 @@
     <div class="card">
       <div class="card-h"><h2>Rincian per jam</h2></div>
       <div class="tw">
-        <table>
+        <table class="t-hourly">
           <thead><tr><th>Hari</th><th>Jam</th><th>Data</th><th>Tegangan (V)</th><th>Arus (A)</th><th>Daya rata-rata (W)</th><th>Daya maks (W)</th><th>Energi (Wh)</th></tr></thead>
           <tbody id="hRows"><tr><td colspan="8" class="muted">Memuat…</td></tr></tbody>
         </table>
@@ -151,6 +153,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
-<script type="module" src="js/app.js"></script>
+<script type="module" src="js/app.js?v=3"></script>
 </body>
 </html>
