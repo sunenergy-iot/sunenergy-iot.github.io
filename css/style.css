@@ -134,10 +134,20 @@ tr.tot td{font-weight:700;background:#fff8e6}
   .bar{gap:8px}.bar>.sel,.bar>select{flex:1 1 140px}.bar .sel select{flex:1;min-width:0}
   #metricTabs{flex-wrap:nowrap;overflow-x:auto;width:100%;padding-bottom:2px}
   #metricTabs button{white-space:nowrap}
-  #histori .bar.card #tgl{flex:1;min-width:0}
+  #histori .bar.card #tgl{flex:1 1 150px;min-width:150px}
+  #histori .bar.card #xls,#histori .bar.card #csv{flex:1 1 120px}
   .grow{display:none}
   .card-h{align-items:flex-start}
   .stats{grid-template-columns:1fr 1fr}
+  /* tabel muat di layar HP tanpa terpotong */
+  th,td{padding:7px 6px;font-size:.76rem}
+  th{white-space:normal;line-height:1.2;vertical-align:bottom}
+  .t-log .st{font-size:0;width:11px;height:11px;padding:0;border-radius:50%}
+  .t-log .st.n{background:var(--ok)}.t-log .st.w{background:#e59a00}.t-log .st.e{background:var(--bad)}
+  .t-log th:nth-child(5),.t-log td:nth-child(5){text-align:center}
+  .t-daily th:nth-child(2),.t-daily td:nth-child(2),.t-daily th:nth-child(7),.t-daily td:nth-child(7),
+  .t-hourly th:nth-child(3),.t-hourly td:nth-child(3),.t-hourly th:nth-child(4),.t-hourly td:nth-child(4),
+  .t-hourly th:nth-child(5),.t-hourly td:nth-child(5){display:none}
 }
 @media(min-width:1500px){.main{max-width:1400px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
