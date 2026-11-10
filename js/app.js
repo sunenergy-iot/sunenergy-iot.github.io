@@ -226,7 +226,7 @@ function render() {
   drawLog(); tickUi(); drawCharts();
 }
 const stBadge = r => { const k = rowState(r);
-  return k === "normal" ? '<span class="st n">Normal</span>' : k === "panel_tidak_aktif" ? '<span class="st w">Panel tidak aktif</span>' : '<span class="st e">PZEM tidak terbaca</span>'; };
+  return k === "normal" ? '<span class="st n" title="Normal">Normal</span>' : k === "panel_tidak_aktif" ? '<span class="st w" title="Panel tidak aktif">Panel tidak aktif</span>' : '<span class="st e" title="PZEM tidak terbaca">PZEM tidak terbaca</span>'; };
 function drawLog() {
   const a = dayRows.slice(-10).reverse();
   $("#logRows").innerHTML = a.length ? a.map(r => `<tr><td>${r.t}</td><td>${fmt(r.tegangan)}</td><td>${fmt(r.arus, 3)}</td><td>${fmt(r.daya, 1)}</td><td>${stBadge(r)}</td></tr>`).join("")
