@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#16201c">
+<title>Sunergy · Solar Monitoring</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <img id="logo" src="img/logo.png" alt="Logo" onerror="this.remove()">
+    <div><b>Sunergy</b><span>Solar monitoring</span></div>
+  </div>
+  <div class="top-r">
+    <span id="ago" class="muted"></span>
+    <span id="status" class="pill" role="status">Memuat data…</span>
+  </div>
+</header>
+<nav class="tabs" aria-label="Menu">
+  <a href="#monitor" data-v="monitor"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span>Dashboard</span></a>
+  <a href="#grafik" data-v="grafik"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg><span>Grafik<span class="hide-s"> realtime</span></span></a>
+  <a href="#histori" data-v="histori"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg><span>Histori<span class="hide-s"> &amp; laporan</span></span></a>
+</nav>
+
+<main class="main">
+  <p id="msg" class="notice" role="alert" hidden></p>
+
+  <!-- ================= DASHBOARD ================= -->
+  <section id="monitor" class="view">
+    <div class="hero">
+      <div class="now">
+        <span class="lbl"><i class="dot" id="liveDot"></i>Daya saat ini · LIVE</span>
+        <div class="big"><span id="vDaya">–</span><small>W</small></div>
+        <div class="cap" aria-hidden="true"><i id="capBar"></i></div>
+        <span id="vCap" class="capt">–</span>
+        <dl class="mini">
+          <div><dt>Tegangan</dt><dd><span id="vTegangan">–</span> V</dd></div>
+          <div><dt>Arus</dt><dd><span id="vArus">–</span> A</dd></div>
+        </dl>
+        <span id="vWaktu" class="capt">–</span>
+      </div>
+      <div class="card">
+        <div class="card-h"><h2 id="dayTitle">Daya hari ini</h2><div class="seg" id="dmode"><button data-m="live" class="on">Realtime</button><button data-m="day">Seharian</button></div></div>
+        <div class="chart"><canvas id="dayChart"></canvas></div>
+        <p class="note" id="dayNote"></p>
+      </div>
+    </div>
+
+    <div class="kpis">
+      <div class="card kpi" style="--c:var(--kwh)"><span class="lbl"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>Energi hari ini</span><b><span id="kEn">–</span><small id="kEnU">Wh</small></b><em>dihitung dari daya terhadap waktu</em></div>
+      <div class="card kpi" style="--c:var(--solar)"><span class="lbl"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>Daya puncak</span><b><span id="kPeak">–</span><small>W</small></b><em id="kPeakAt">&nbsp;</em></div>
+      <div class="card kpi" style="--c:var(--solar)"><span class="lbl"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Durasi produksi</span><b><span id="kProd">–</span></b><em>daya di atas 0,5 W</em></div>
+      <div class="card kpi" style="--c:var(--volt)"><span class="lbl"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M7 8l5-5 5 5"/></svg>Tegangan rata-rata</span><b><span id="kVolt">–</span><small>V</small></b><em id="kVoltR">&nbsp;</em></div>
+      <div class="card kpi" style="--c:var(--kwh)"><span class="lbl"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></svg>Estimasi nilai energi</span><b><span id="kRp">–</span></b><em id="kRpSub">&nbsp;</em></div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h2>Pembacaan terakhir</h2><button id="dlToday" class="ghost">Unduh data hari ini (CSV)</button></div>
+      <div class="tw short">
+        <table>
+          <thead><tr><th>Jam</th><th>Tegangan (V)</th><th>Arus (A)</th><th>Daya (W)</th><th>Kondisi</th></tr></thead>
+          <tbody id="logRows"><tr><td colspan="5" class="muted">Menunggu data…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GRAFIK REALTIME ================= -->
+  <section id="grafik" class="view" hidden>
+    <div class="card">
+      <div class="bar">
+        <div class="seg" id="metricTabs"></div>
+        <span class="grow"></span>
+        <label class="sel">Rentang
+          <select id="range">
+            <option value="5">5 menit</option>
+            <option value="15" selected>15 menit</option>
+            <option value="30">30 menit</option>
+            <option value="60">1 jam</option>
+            <option value="180">3 jam</option>
+            <option value="0">Seluruh hari</option>
+          </select>
+        </label>
+        <button id="dlView" class="ghost">Unduh rentang ini (CSV)</button>
+      </div>
+      <div class="chart tall"><canvas id="bigChart"></canvas></div>
+      <div class="stats" id="stats"></div>
+      <p class="note">Grafik bergerak otomatis setiap ada data baru dari alat.</p>
+    </div>
+  </section>
+
+  <!-- ================= HISTORI ================= -->
+  <section id="histori" class="view" hidden>
+    <div class="card bar">
+      <button id="prevW" class="ghost" aria-label="Minggu sebelumnya">‹</button>
+      <select id="tgl" aria-label="Pilih minggu"></select>
+      <button id="nextW" class="ghost" aria-label="Minggu berikutnya">›</button>
+      <span class="grow"></span>
+      <button id="xls">Unduh Excel</button>
+      <button id="csv" class="ghost">CSV per jam</button>
+      <label class="sel">Data mentah <select id="rawDay"></select></label>
+      <button id="raw" class="ghost">CSV</button>
+      <span id="info" class="muted"></span>
+    </div>
+
+    <div class="kpis">
+      <div class="card kpi" style="--c:var(--kwh)"><span class="lbl">Total energi</span><b><span id="hTotal">–</span><small id="hTotalU">Wh</small></b><em id="hAvgDay">&nbsp;</em></div>
+      <div class="card kpi" style="--c:var(--solar)"><span class="lbl">Daya puncak</span><b><span id="hPeak">–</span><small>W</small></b><em id="hPeakAt">&nbsp;</em></div>
+      <div class="card kpi" style="--c:var(--solar)"><span class="lbl">Durasi produksi</span><b><span id="hProd">–</span></b><em id="hBest">&nbsp;</em></div>
+      <div class="card kpi" style="--c:var(--volt)"><span class="lbl">Tegangan rata-rata</span><b><span id="hVolt">–</span><small>V</small></b><em id="hVoltR">&nbsp;</em></div>
+    </div>
+
+    <div class="card">
+      <div class="card-h">
+        <h2>Energi (Wh)</h2>
+        <div class="bar tight">
+          <div class="seg" id="hmode"><button data-m="hari" class="on">Per hari</button><button data-m="jam">Per jam</button></div>
+          <label class="chk"><input type="checkbox" id="hideIdle" checked> Sembunyikan jam tanpa produksi</label>
+        </div>
+      </div>
+      <div class="chart short"><canvas id="hourChart"></canvas></div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h2>Ringkasan harian</h2></div>
+      <div class="tw short">
+        <table>
+          <thead><tr><th>Hari</th><th>Data</th><th>Energi (Wh)</th><th>Daya maks (W)</th><th>Jam puncak</th><th>Durasi produksi</th><th>Kontinuitas data</th></tr></thead>
+          <tbody id="dRows"><tr><td colspan="7" class="muted">Memuat…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h2>Rincian per jam</h2></div>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Hari</th><th>Jam</th><th>Data</th><th>Tegangan (V)</th><th>Arus (A)</th><th>Daya rata-rata (W)</th><th>Daya maks (W)</th><th>Energi (Wh)</th></tr></thead>
+          <tbody id="hRows"><tr><td colspan="8" class="muted">Memuat…</td></tr></tbody>
+        </table>
+      </div>
+      <p class="note">Tegangan dan arus dirata-rata hanya saat panel aktif. Kontinuitas data = persentase waktu tanpa jeda lebih dari 2 menit di antara pembacaan pertama dan terakhir hari itu.</p>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
